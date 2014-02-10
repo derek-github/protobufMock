@@ -1,0 +1,30 @@
+#coding=gbk
+
+class x_server_header(object) :
+'''
+头结构如下
+           unit16_t id, //id  1
+           unit16_t version, //版本号 1
+           unit32_t log_id, //由apche产生的logid，贯穿一次请求的所有网络交互 111
+           char provider[16], //客户端标实，如"client" 
+           uint32_t magic_num //特殊标示，一个包的起始 0xffee7799
+           unit32_t reserved; //保留
+           unit32_t body_len; //head后请求的总长度，也就是protobuf序列号后的长度
+'''
+        
+        
+    id=1
+    version=1
+    log_id=111
+    provider="client"
+    magic_num=socket.htonl(0xffee7799)
+    reserved=0
+
+#body_len不要设置，mock server会通过body的实际大小来填充
+
+
+#序列化，为后续传输做准备
+(id,version,log_id,reserved,body_len)=(socket.htons(x_server_header.id),socket.htons(x_server_header.version),socket.htonl(x_server_header.log_id),socket.htons(x_server_header.reserved),socket.htonl(x_server_header.body_len))
+
+header_str=struct.pack("!HHI16sIII",id,version,log_id,provider,magic_num,reserved,body_len)
+
