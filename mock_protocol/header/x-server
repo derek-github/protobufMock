@@ -7,7 +7,7 @@ class x_server_header(object) :
            unit16_t version, //版本号 1
            unit32_t log_id, //由apche产生的logid，贯穿一次请求的所有网络交互 111
            char provider[16], //客户端标实，如"client" 
-           uint32_t magic_num //特殊标示，一个包的起始 0xffee7799
+           uint32_t magic_num //特殊标示，一个包的起始标示
            unit32_t reserved; //保留
            unit32_t body_len; //head后请求的总长度，也就是protobuf序列号后的长度
 '''
